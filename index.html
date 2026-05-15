@@ -7,42 +7,18 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:微软雅黑,sans-serif;}
         body{background:#f5f5f5;padding-bottom:70px;}
-        
-        .tab-bar{
-            position:fixed;top:0;left:0;right:0;
-            background:#fff;display:flex;overflow-x:auto;
-            white-space:nowrap;box-shadow:0 1px 3px #ccc;z-index:99;
-        }
+        .tab-bar{position:fixed;top:0;left:0;right:0;background:#fff;display:flex;overflow-x:auto;white-space:nowrap;box-shadow:0 1px 3px #ccc;z-index:99;}
         .tab{padding:12px 15px;font-size:15px;flex-shrink:0;}
         .tab.active{color:#ff5a3c;border-bottom:2px solid #ff5a3c;font-weight:bold;}
-        
         .container{margin-top:55px;padding:10px;}
         .cake-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
         .cake-item{background:#fff;border-radius:8px;overflow:hidden;}
-        
-        /* 修复：手机自适应、完整显示、不裁切 */
-        .cake-item img{
-            width:100%;
-            height:auto; /* 高度自适应 */
-            display:block;
-            background:#fff;
-        }
-        
+        .cake-item img{width:100%;height:auto;display:block;background:#fff;}
         .cake-no{text-align:center;padding:8px;font-size:16px;font-weight:bold;}
-        
-        .search-box{
-            position:fixed;bottom:0;left:0;right:0;
-            background:#fff;padding:10px;display:flex;gap:8px;
-            box-shadow:0 -1px 3px #ccc;
-        }
+        .search-box{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:8px;box-shadow:0 -1px 3px #ccc;}
         .search-box input{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:20px;outline:none;}
         .search-box button{padding:10px 20px;background:#ff5a3c;color:#fff;border:none;border-radius:20px;}
-        
-        .img-modal{
-            position:fixed;top:0;left:0;right:0;bottom:0;
-            background:rgba(0,0,0,0.9);display:none;z-index:100;
-            align-items:center;justify-content:center;
-        }
+        .img-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);display:none;z-index:100;align-items:center;justify-content:center;}
         .img-modal img{max-width:90%;max-height:90vh;}
     </style>
 </head>
@@ -70,7 +46,6 @@
 </div>
 <script>
 const cakeData = [
-// a 送小朋友 kid
 {no:'a01',img:'a01.jpeg',tags:['kid']},
 {no:'a02',img:'a02.jpeg',tags:['kid']},
 {no:'a03',img:'a03.jpeg',tags:['kid']},
@@ -78,7 +53,7 @@ const cakeData = [
 {no:'a05',img:'a05.jpeg',tags:['kid']},
 {no:'a06',img:'a06.jpeg',tags:['kid']},
 {no:'a07',img:'a07.jpeg',tags:['kid']},
-// b 送女生 girl
+
 {no:'b01',img:'b01.jpeg',tags:['girl']},
 {no:'b02',img:'b02.jpeg',tags:['girl']},
 {no:'b03',img:'b03.jpeg',tags:['girl']},
@@ -94,33 +69,33 @@ const cakeData = [
 {no:'b13',img:'b13.jpeg',tags:['girl']},
 {no:'b14',img:'b14.jpeg',tags:['girl']},
 {no:'b15',img:'b15.jpeg',tags:['girl']},
-// c 送男生 boy
+
 {no:'c01',img:'c01.jpeg',tags:['boy']},
 {no:'c02',img:'c02.jpeg',tags:['boy']},
 {no:'c03',img:'c03.jpeg',tags:['boy']},
 {no:'c04',img:'c04.jpeg',tags:['boy']},
 {no:'c05',img:'c05.jpeg',tags:['boy']},
 {no:'c06',img:'c06.jpeg',tags:['boy']},
-// d 送长辈 elder
+
 {no:'d01',img:'d01.jpeg',tags:['elder']},
 {no:'d02',img:'d02.jpeg',tags:['elder']},
 {no:'d03',img:'d03.jpeg',tags:['elder']},
 {no:'d04',img:'d04.jpeg',tags:['elder']},
 {no:'d05',img:'d05.jpeg',tags:['elder']},
 {no:'d06',img:'d06.jpeg',tags:['elder']},
-// e 搞怪整蛊 funny
+
 {no:'e01',img:'e01.jpeg',tags:['funny']},
 {no:'e02',img:'e02.jpeg',tags:['funny']},
 {no:'e03',img:'e03.jpeg',tags:['funny']},
 {no:'e04',img:'e04.jpeg',tags:['funny']},
 {no:'e05',img:'e05.jpeg',tags:['funny']},
-// f 经典风格 classic
+
 {no:'f01',img:'f01.jpeg',tags:['classic']},
 {no:'f02',img:'f02.jpeg',tags:['classic']},
 {no:'f03',img:'f03.jpeg',tags:['classic']},
 {no:'f04',img:'f04.jpeg',tags:['classic']},
 {no:'f05',img:'f05.jpeg',tags:['classic']},
-// g 巧克力风格 choco
+
 {no:'g01',img:'g01.jpeg',tags:['choco']},
 {no:'g02',img:'g02.jpeg',tags:['choco']},
 {no:'g03',img:'g03.jpeg',tags:['choco']},
@@ -138,7 +113,7 @@ const cakeData = [
 {no:'g15',img:'g15.jpeg',tags:['choco']},
 {no:'g16',img:'g16.jpeg',tags:['choco']},
 {no:'g17',img:'g17.jpeg',tags:['choco']},
-// h 水果风格 fruit（jpeg）
+
 {no:'h01',img:'h01.jpeg',tags:['fruit']},
 {no:'h02',img:'h02.jpeg',tags:['fruit']},
 {no:'h03',img:'h03.jpeg',tags:['fruit']},
@@ -155,6 +130,7 @@ const cakeData = [
 {no:'h14',img:'h14.jpeg',tags:['fruit']},
 {no:'h15',img:'h15.jpeg',tags:['fruit']}
 ];
+
 let currentTag = 'all';
 function renderList(){
     const list = document.getElementById('cakeList');
@@ -178,16 +154,10 @@ document.querySelectorAll('.tab').forEach(tab=>{
 function searchCake(){
     let k = document.getElementById('searchInput').value.trim().toUpperCase();
     let f = cakeData.find(i=>i.no==k);
-    if(f) openModal(f.img);
-    else alert('未找到该编号');
+    if(f) openModal(f.img); else alert('未找到该编号');
 }
-function openModal(src){
-    document.getElementById('modalImg').src = src;
-    document.getElementById('imgModal').style.display='flex';
-}
-function closeModal(){
-    document.getElementById('imgModal').style.display='none';
-}
+function openModal(src){ document.getElementById('modalImg').src = src; document.getElementById('imgModal').style.display='flex'; }
+function closeModal(){ document.getElementById('imgModal').style.display='none'; }
 renderList();
 </script>
 </body>
