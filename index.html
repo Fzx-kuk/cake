@@ -8,16 +8,16 @@
         *{margin:0;padding:0;box-sizing:border-box;font-family:微软雅黑,sans-serif;}
         body{background:#f5f5f5;padding-bottom:70px;}
         .tab-bar{position:fixed;top:0;left:0;right:0;background:#fff;display:flex;overflow-x:auto;white-space:nowrap;box-shadow:0 1px 3px #ccc;z-index:99;}
-        .tab{padding:12px 15px;font-size:15px;flex-shrink:0;}
+        .tab{padding:12px 15px;font-size:15px;flex-shrink:0;cursor:pointer;}
         .tab.active{color:#ff5a3c;border-bottom:2px solid #ff5a3c;font-weight:bold;}
         .container{margin-top:55px;padding:10px;}
         .cake-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
         .cake-item{background:#fff;border-radius:8px;overflow:hidden;}
-        .cake-item img{width:100%;height:auto;display:block;background:#fff;}
+        .cake-item img{width:100%;height:auto;display:block;background:#fff;cursor:pointer;}
         .cake-no{text-align:center;padding:8px;font-size:16px;font-weight:bold;}
         .search-box{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:8px;box-shadow:0 -1px 3px #ccc;}
         .search-box input{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:20px;outline:none;}
-        .search-box button{padding:10px 20px;background:#ff5a3c;color:#fff;border:none;border-radius:20px;}
+        .search-box button{padding:10px 20px;background:#ff5a3c;color:#fff;border:none;border-radius:20px;cursor:pointer;}
         .img-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);display:none;z-index:100;align-items:center;justify-content:center;}
         .img-modal img{max-width:90%;max-height:90vh;}
     </style>
@@ -34,7 +34,7 @@
     <div class="tab" data-tag="choco">巧克力风格</div>
     <div class="tab" data-tag="fruit">水果风格</div>
 </div>
-<div class="container">
+<div class="container" id="listContainer">
     <div class="cake-list" id="cakeList"></div>
 </div>
 <div class="search-box">
@@ -82,7 +82,6 @@ const cakeData = [
 {no:'a33',img:'a33.jpg',tags:['kid']},
 {no:'a34',img:'a34.jpg',tags:['kid']},
 {no:'a35',img:'a35.jpg',tags:['kid']},
-
 // b 送女生 girl
 {no:'b01',img:'b01.jpeg',tags:['girl']},
 {no:'b02',img:'b02.jpeg',tags:['girl']},
@@ -99,7 +98,6 @@ const cakeData = [
 {no:'b13',img:'b13.jpeg',tags:['girl']},
 {no:'b14',img:'b14.jpeg',tags:['girl']},
 {no:'b15',img:'b15.jpeg',tags:['girl']},
-
 // c 送男生 boy
 {no:'c01',img:'c01.jpeg',tags:['boy']},
 {no:'c02',img:'c02.jpeg',tags:['boy']},
@@ -107,7 +105,6 @@ const cakeData = [
 {no:'c04',img:'c04.jpeg',tags:['boy']},
 {no:'c05',img:'c05.jpeg',tags:['boy']},
 {no:'c06',img:'c06.jpeg',tags:['boy']},
-
 // d 送长辈 elder
 {no:'d01',img:'d01.jpeg',tags:['elder']},
 {no:'d02',img:'d02.jpeg',tags:['elder']},
@@ -115,21 +112,18 @@ const cakeData = [
 {no:'d04',img:'d04.jpeg',tags:['elder']},
 {no:'d05',img:'d05.jpeg',tags:['elder']},
 {no:'d06',img:'d06.jpeg',tags:['elder']},
-
 // e 搞怪整蛊 funny
 {no:'e01',img:'e01.jpeg',tags:['funny']},
 {no:'e02',img:'e02.jpeg',tags:['funny']},
 {no:'e03',img:'e03.jpeg',tags:['funny']},
 {no:'e04',img:'e04.jpeg',tags:['funny']},
 {no:'e05',img:'e05.jpeg',tags:['funny']},
-
 // f 经典风格 classic
 {no:'f01',img:'f01.jpeg',tags:['classic']},
 {no:'f02',img:'f02.jpeg',tags:['classic']},
 {no:'f03',img:'f03.jpeg',tags:['classic']},
 {no:'f04',img:'f04.jpeg',tags:['classic']},
 {no:'f05',img:'f05.jpeg',tags:['classic']},
-
 // g 巧克力风格 choco
 {no:'g01',img:'g01.jpeg',tags:['choco']},
 {no:'g02',img:'g02.jpeg',tags:['choco']},
@@ -148,7 +142,6 @@ const cakeData = [
 {no:'g15',img:'g15.jpeg',tags:['choco']},
 {no:'g16',img:'g16.jpeg',tags:['choco']},
 {no:'g17',img:'g17.jpeg',tags:['choco']},
-
 // h 水果风格 fruit
 {no:'h01',img:'h01.jpeg',tags:['fruit']},
 {no:'h02',img:'h02.jpeg',tags:['fruit']},
@@ -179,16 +172,19 @@ function renderList(){
         list.appendChild(div);
     });
 }
+
+// 切换标签：直接回顶，无动画
 document.querySelectorAll('.tab').forEach(tab=>{
     tab.onclick = ()=>{
         document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         tab.classList.add('active');
         currentTag = tab.dataset.tag;
+        window.scrollTo(0, 0); // 直接回顶
         renderList();
-    }
+    };
 });
 
-// 修复搜索：大小写不敏感
+// 搜索：大小写不敏感
 function searchCake(){
     let k = document.getElementById('searchInput').value.trim().toLowerCase();
     let f = cakeData.find(i=>i.no.toLowerCase() === k);
@@ -196,13 +192,18 @@ function searchCake(){
     else alert('未找到该编号');
 }
 
+// 打开图片预览（核心修复）
 function openModal(src){
     document.getElementById('modalImg').src = src;
-    document.getElementById('imgModal').style.display='flex';
+    document.getElementById('imgModal').style.display = 'flex';
 }
+
+// 关闭图片预览
 function closeModal(){
-    document.getElementById('imgModal').style.display='none';
+    document.getElementById('imgModal').style.display = 'none';
 }
+
+// 初始渲染
 renderList();
 </script>
 </body>
