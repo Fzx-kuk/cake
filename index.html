@@ -13,13 +13,25 @@
         .container{margin-top:55px;padding:10px;}
         .cake-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
         .cake-item{background:#fff;border-radius:8px;overflow:hidden;}
-        .cake-item img{width:100%;height:auto;display:block;background:#fff;cursor:pointer;}
+        .cake-item img{
+            width:100%;height:auto;display:block;background:#fff;cursor:pointer;
+            /* 关键：去掉蓝色点击高亮 */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
         .cake-no{text-align:center;padding:8px;font-size:16px;font-weight:bold;}
         .search-box{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;display:flex;gap:8px;box-shadow:0 -1px 3px #ccc;}
         .search-box input{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:20px;outline:none;}
-        .search-box button{padding:10px 20px;background:#ff5a3c;color:#fff;border:none;border-radius:20px;cursor:pointer;}
+        .search-box button{
+            padding:10px 20px;background:#ff5a3c;color:#fff;border:none;border-radius:20px;cursor:pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
         .img-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);display:none;z-index:100;align-items:center;justify-content:center;}
-        .img-modal img{max-width:90%;max-height:90vh;}
+        .img-modal img{
+            max-width:90%;max-height:90vh;
+            -webkit-tap-highlight-color: transparent;
+        }
     </style>
 </head>
 <body>
@@ -192,7 +204,7 @@ function searchCake(){
     else alert('未找到该编号');
 }
 
-// 打开图片预览（核心修复）
+// 打开图片预览
 function openModal(src){
     document.getElementById('modalImg').src = src;
     document.getElementById('imgModal').style.display = 'flex';
